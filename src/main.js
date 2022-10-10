@@ -2,7 +2,7 @@ export class LameEngine {
   constructor(viewport) {
     this.viewport = viewport
     this.background = null
-    this.camera = Camera()
+    this.camera = new Camera()
   }
 
   // General
