@@ -1,4 +1,5 @@
 # Lame Engine
+Simple and mid-performing 2D engine using plain JavaScript and HTML.
 ## What's this?
 A low/mid-performing 2D engine using plain javascript.
 ## Hosted Example
