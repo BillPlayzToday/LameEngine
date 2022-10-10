@@ -14,14 +14,10 @@ export class LameEngine {
     }
 
     if (visual instanceof RGB) {
-      this.background = document.createElement(
-        tagName = "div"
-      )
+      this.background = document.createElement("div")
       this.background.setAttribute("style","width: 100%; height: 100%; color: rgb(" + String(visual.r) + "," + String(visual.g) + "," + String(visual.b) + ");")
     } else if (visual instanceof Image) {
-      this.background = document.createElement(
-        tagName = "img"
-      )
+      this.background = document.createElement("img")
       this.background.setAttribute("style","width: 100%; height: 100%;")
       this.background.setAttribute("src",visual.src)
     }
