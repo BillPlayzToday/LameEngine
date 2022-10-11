@@ -173,12 +173,11 @@ export class ImageLabel {
     return document.createElement("img")
   }
 
-  set_src(srcString) {
+  set_image(imageObject) {
     if (!this.compiledObject) {
-      return false
+      throw "Object is not compiled yet. Use a callback at add_object to set the image value!"
     }
-    this.compiledObject.setAttribute("src",srcString)
-    return true
+    this.compiledObject.setAttribute("src",imageObject.src)
   }
 }
 
@@ -199,6 +198,9 @@ export class TextLabel {
   }
 
   set_text(textString) {
+    if (!this.compiledObject) {
+      throw "Object is not compiled yet. Use a callback at add_object to set the text value!"
+    }
     this.compiledObject.innerHTML = textString
   }
 }
