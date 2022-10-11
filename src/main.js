@@ -25,8 +25,10 @@ export class LameEngine {
       if (!object[1]) {
         object[1] = object[0]._objectify()
         this.viewport.appendChild(object[1])
-        object[2](object[1])
-        object[2] = undefined
+        if (object[2]) {
+          object[2](object[1])
+          object[2] = undefined
+        }
       }
 
       let finalStyle = String()
