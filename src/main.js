@@ -18,7 +18,7 @@ export class LameEngine {
     }
     this.previousRenderTime = currentTime
     for (let object of this.objects) {
-      print(object)
+      console.log(object)
       let cameraPositionX = this.toOffset(this.camera.positionX)
       let cameraPositionY = this.toOffset(this.camera.positionY)
       let todoPosition = [(this.toOffset(object[0].positionX) - cameraPositionX),(this.toOffset(object[0].positionY) - cameraPositionY)]
