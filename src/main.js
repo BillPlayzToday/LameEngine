@@ -25,6 +25,7 @@ export class LameEngine {
       if (!object[1]) {
         object[1] = object[0]._objectify()
         this.viewport.appendChild(object[1])
+        this.compiledObject = object[1]
         if (object[2]) {
           object[2](object[1])
           object[2] = undefined
@@ -145,6 +146,7 @@ export class Frame {
     this.sizeY = [0,0]
     this.rotation = 0
     this.style = {}
+    this.compiledObject = null
   }
 
   _objectify() {
@@ -164,6 +166,7 @@ export class ImageLabel {
     this.sizeY = [0,0]
     this.rotation = 0
     this.style = {}
+    this.compiledObject = null
   }
 
   _objectify() {
@@ -171,7 +174,11 @@ export class ImageLabel {
   }
 
   set_src(srcString) {
-    
+    if (!this.compiledObject) {
+      return false
+    }
+    this.compiledObject.setAttribute("src",srcString)
+    return true
   }
 }
 
@@ -184,9 +191,14 @@ export class TextLabel {
     this.rotation = 0
     this.wrapped = 0
     this.style = {}
+    this.compiledObject = null
   }
 
   _objectify() {
     return document.createElement("span")
+  }
+
+  set_text(textString) {
+    this.compiledObject.innerHTML = textString
   }
 }
