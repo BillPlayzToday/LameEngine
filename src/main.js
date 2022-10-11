@@ -18,6 +18,7 @@ export class LameEngine {
     }
     this.previousRenderTime = currentTime
     for (let object of this.objects) {
+      print(object)
       let cameraPositionX = this.toOffset(this.camera.positionX)
       let cameraPositionY = this.toOffset(this.camera.positionY)
       let todoPosition = [(this.toOffset(object[0].positionX) - cameraPositionX),(this.toOffset(object[0].positionY) - cameraPositionY)]
@@ -40,12 +41,6 @@ export class LameEngine {
   yield_loop() {
     this.render()
     window.requestAnimationFrame(this.yield_loop.bind(this))
-  }
-
-  auto_loop() {
-    setTimeout(function() {
-      window.requestAnimationFrame(this.yield_loop)
-    },0)
   }
 
   add_object(object) {
