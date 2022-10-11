@@ -38,11 +38,14 @@ export class LameEngine {
   }
 
   yield_loop() {
+    this.render()
     window.requestAnimationFrame(this.yield_loop)
   }
 
   auto_loop() {
-    setTimeout(this.yield_loop,0)
+    setTimeout(function() {
+      window.requestAnimationFrame(this.yield_loop)
+    },0)
   }
 
   add_object(object) {
