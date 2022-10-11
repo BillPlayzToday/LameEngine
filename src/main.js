@@ -18,7 +18,6 @@ export class LameEngine {
     }
     this.previousRenderTime = currentTime
     for (let object of this.objects) {
-      console.log(object)
       let cameraPositionX = this.toOffset(this.camera.positionX)
       let cameraPositionY = this.toOffset(this.camera.positionY)
       let todoPosition = [(this.toOffset(object[0].positionX) - cameraPositionX),(this.toOffset(object[0].positionY) - cameraPositionY)]
@@ -28,7 +27,7 @@ export class LameEngine {
         this.viewport.appendChild(object[1])
       }
 
-      let finalStyle = object.style
+      let finalStyle = object[0].style
       // SIZE
       finalStyle = finalStyle + " " + "width: " + String(todoSize[0]) + "px; height: " + String(todoSize[1]) + "px;"
       // POSITION
