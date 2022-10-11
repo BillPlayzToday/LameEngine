@@ -39,7 +39,7 @@ export class LameEngine {
 
   yield_loop() {
     this.render()
-    window.requestAnimationFrame(this.yield_loop)
+    window.requestAnimationFrame(this.yield_loop.bind(this))
   }
 
   auto_loop() {
