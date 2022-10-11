@@ -25,13 +25,24 @@ export class LameEngine {
       if (!object[1]) {
         object[1] = object[0]._objectify()
         this.viewport.appendChild(object[1])
+        object[2](object[1])
+        object[2] = undefined
       }
 
-      let finalStyle = object[0].style
+      let finalStyle = String()
+      let styleTable = object[0].style.entries()
+
       // SIZE
-      finalStyle = finalStyle + " " + "width: " + String(todoSize[0]) + "px; height: " + String(todoSize[1]) + "px;"
+      styleTable["width"] = String(todoSize[0]) + "px"
+      styleTable["height"] = String(todoSize[1]) + "px"
       // POSITION
-      finalStyle = finalStyle + " " + "left: " + String(todoPosition[0] - (todoSize[0] / 2)) + "px; top: " + String(todoPosition[1] - (todoSize[1] / 2)) + "px;"
+      styleTable["position"] = "absolute"
+      styleTable["left"] = String(todoPosition[0] - (todoSize[0] / 2)) + "px"
+      styleTable["top"] = String(todoPosition[1] - (todoSize[1] / 2)) + "px"
+
+      for (let stylePair in styleTable) {
+        finalStyle = finalStyle + stylePair[0] + ":" + stylePair[1] + ";"
+      }
 
       object[1].setAttribute("style",finalStyle)
     }
@@ -42,8 +53,8 @@ export class LameEngine {
     window.requestAnimationFrame(this.yield_loop.bind(this))
   }
 
-  add_object(object) {
-    this.objects.push([object,null])
+  add_object(object,onCompiled) {
+    this.objects.push([object,null,onCompiled])
   }
 
   remove_objects(objects) {
@@ -126,11 +137,15 @@ export class Frame {
     this.sizeX = [0,0]
     this.sizeY = [0,0]
     this.rotation = 0
-    this.style = ""
+    this.style = {}
   }
 
   _objectify() {
     return document.createElement("div")
+  }
+
+  set_color(rgbColor) {
+    this.style["background-color"] = "rgb(" + String(rgbColor.r) + "," + String(rgbColor.g) + "," + String(rgbColor.b) + ")"
   }
 }
 
@@ -141,11 +156,15 @@ export class ImageLabel {
     this.sizeX = [0,0]
     this.sizeY = [0,0]
     this.rotation = 0
-    this.style = ""
+    this.style = {}
   }
 
   _objectify() {
     return document.createElement("img")
+  }
+
+  set_src(srcString) {
+    
   }
 }
 
@@ -157,7 +176,7 @@ export class TextLabel {
     this.sizeY = [0,0]
     this.rotation = 0
     this.wrapped = 0
-    this.style = ""
+    this.style = {}
   }
 
   _objectify() {
