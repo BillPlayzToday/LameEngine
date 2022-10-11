@@ -32,7 +32,7 @@ export class LameEngine {
       }
 
       let finalStyle = String()
-      let styleTable = object[0].style.entries()
+      let styleTable = Object.entries(object[0].style)
 
       // SIZE
       styleTable["width"] = String(todoSize[0]) + "px"
