@@ -18,10 +18,10 @@ export class LameEngine {
     }
     this.previousRenderTime = currentTime
     for (let object of this.objects) {
-      let cameraPositionX = this.toOffset(this.camera.positionX)
-      let cameraPositionY = this.toOffset(this.camera.positionY)
-      let todoPosition = [(this.toOffset(object[0].positionX) - cameraPositionX),(this.toOffset(object[0].positionY) - cameraPositionY)]
-      let todoSize = [(this.toOffset(object[0].sizeX) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY) * this.camera.sizeMultiplier)]
+      let cameraPositionX = this.toOffset(this.camera.positionX,true)
+      let cameraPositionY = this.toOffset(this.camera.positionY,false)
+      let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
+      let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
       if (!object[1]) {
         object[1] = object[0]._objectify()
         this.viewport.appendChild(object[1])
@@ -104,8 +104,12 @@ export class LameEngine {
   }
 
   // Utility
-  toOffset(position) {
-    return position[0] + (position[1] * this.viewport.clientWidth)
+  toOffset(position,isX) {
+    if (isX) {
+      return position[0] + (position[1] * this.viewport.clientWidth)
+    } else {
+      return position[0] + (position[1] * this.viewport.clientHeight)
+    }
   }
 }
 
