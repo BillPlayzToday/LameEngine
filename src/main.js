@@ -42,7 +42,7 @@ export class LameEngine {
       styleTable["left"] = String(todoPosition[0] - (todoSize[0] / 2)) + "px"
       styleTable["top"] = String(todoPosition[1] - (todoSize[1] / 2)) + "px"
 
-      styleTableEntries = Object.entries(styleTable)
+      let styleTableEntries = Object.entries(styleTable)
       console.log(styleTableEntries)
       for (let stylePair in styleTableEntries) {
         console.log(stylePair)
