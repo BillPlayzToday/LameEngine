@@ -190,9 +190,10 @@ export class TextLabel {
     this.sizeX = [0,0]
     this.sizeY = [0,0]
     this.rotation = 0
-    this.wrapped = 0
     this.style = {}
     this.compiledObject = null
+    this._wrapped = false
+    this._alignment = "left"
   }
 
   _objectify() {
@@ -204,5 +205,25 @@ export class TextLabel {
       throw "Object is not compiled yet. Use a callback at add_object to set the text value!"
     }
     this.compiledObject.innerHTML = textString
+  }
+
+  set_color(rgbColor) {
+    this.style["color"] = "rgb(" + String(rgbColor.r) + "," + String(rgbColor.g) + "," + String(rgbColor.b) + ")"
+  }
+
+  set_wrapped(wrapped) {
+    this.wrapped = wrapped
+    if (wrapped) {
+      this.style["word-wrap"] = "break-word"
+    } else {
+      this.style["word-wrap"] = "normal"
+    }
+  }
+
+  set_alignment(alignment) {
+    if (alignment != "left" && alignment != "center" && alignment != "right" && alignment != "justify") {
+      throw "Text Alignment needs to be set to left, center, right or justify."
+    }
+    this.style["text-align"] = alignment
   }
 }
