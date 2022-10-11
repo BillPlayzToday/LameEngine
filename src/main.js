@@ -42,6 +42,8 @@ export class LameEngine {
       styleTable["position"] = "absolute"
       styleTable["left"] = String(todoPosition[0] - (todoSize[0] / 2)) + "px"
       styleTable["top"] = String(todoPosition[1] - (todoSize[1] / 2)) + "px"
+      // ROTATION
+      styleTable["transform"] = "rotate(" + String(object[0].rotation) + "deg)"
 
       let styleTableEntries = Object.entries(styleTable)
       for (let stylePair of styleTableEntries) {
