@@ -230,7 +230,7 @@ export class TextLabel {
 
   set_font(fontString,subtypeString) {
     let currentHeadInnerHtml = document.head.innerHTML
-    let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet"> '
+    let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=' + fontString + '&display=swap" rel="stylesheet"> '
     if (!currentHeadInnerHtml.includes(preparedLink)) {
       document.head.innerHTML = document.head.innerHTML + "\n" + preparedLink
     }
