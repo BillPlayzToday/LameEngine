@@ -184,6 +184,13 @@ export class ImageLabel {
     }
     this.compiledObject.setAttribute("src",imageObject.src)
   }
+
+  set_rendering(renderingString) {
+    if (renderingString != "auto" && renderingString != "crisp-edges" && renderingString != "pixelated") {
+      throw "Image Rendering must be set to auto, crisp-edges or pixelated."
+    }
+    this.style["image-rendering"] = renderingString
+  }
 }
 
 export class TextLabel {
