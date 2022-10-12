@@ -6,6 +6,11 @@ export class LameEngine {
     this.objects = []
     this.renderBoundFunctions = []
     this.previousRenderTime = null
+
+    // Google Fonts
+    let preconnectHtmlA = '<link rel="preconnect" href="https://fonts.googleapis.com">'
+    let preconnectHtmlB = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+    document.head.innerHTML = document.head.innerHTML + "\n" + preconnectHtmlA + "\n" + preconnectHtmlB
   }
 
   // General
@@ -194,6 +199,7 @@ export class TextLabel {
     this.compiledObject = null
     this._wrapped = false
     this._alignment = "left"
+    this._font = ""
   }
 
   _objectify() {
