@@ -248,7 +248,7 @@ export class TextLabel {
     this.style["font-family"] = fontString + "," + subtypeString
   }
 
-  set_fontsize(textSize) {
-    this.style["font-size"] = String(textSize)
+  set_fontsize(textSizeString) {
+    this.style["font-size"] = textSizeString
   }
 }
