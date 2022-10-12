@@ -40,8 +40,8 @@ export class LameEngine {
       styleTable["height"] = String(todoSize[1]) + "px"
       // POSITION
       styleTable["position"] = "absolute"
-      styleTable["left"] = String(todoPosition[0] - (todoSize[0] / 2)) + "px"
-      styleTable["top"] = String(todoPosition[1] - (todoSize[1] / 2)) + "px"
+      styleTable["left"] = String(todoPosition[0] + (todoSize[0] * object[0].anchorPoint[0])) + "px"
+      styleTable["top"] = String(todoPosition[1] + (todoSize[1] * object[0].anchorPoint[1])) + "px"
       // ROTATION
       styleTable["transform"] = "rotate(" + String(object[0].rotation) + "deg)"
 
@@ -134,6 +134,7 @@ export class Image {
 // Object Classes
 export class Camera {
   constructor() {
+    this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeMultiplier = 1
@@ -142,6 +143,7 @@ export class Camera {
 
 export class Frame {
   constructor() {
+    this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeX = [0,0]
@@ -162,6 +164,7 @@ export class Frame {
 
 export class ImageLabel {
   constructor() {
+    this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeX = [0,0]
@@ -185,6 +188,7 @@ export class ImageLabel {
 
 export class TextLabel {
   constructor() {
+    this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeX = [0,0]
