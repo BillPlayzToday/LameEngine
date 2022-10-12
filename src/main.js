@@ -6,11 +6,6 @@ export class LameEngine {
     this.objects = []
     this.renderBoundFunctions = []
     this.previousRenderTime = null
-
-    // Google Fonts
-    let preconnectHtmlA = '<link rel="preconnect" href="https://fonts.googleapis.com">'
-    let preconnectHtmlB = '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-    document.head.innerHTML = document.head.innerHTML + "\n" + preconnectHtmlA + "\n" + preconnectHtmlB
   }
 
   // General
@@ -231,5 +226,14 @@ export class TextLabel {
       throw "Text Alignment needs to be set to left, center, right or justify."
     }
     this.style["text-align"] = alignment
+  }
+
+  set_font(fontString,subtypeString) {
+    let currentHeadInnerHtml = document.head.innerHTML
+    let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet"> '
+    if (!currentHeadInnerHtml.includes(preparedLink)) {
+      document.head.innerHTML = document.head.innerHTML + "\n" + preparedLink
+    }
+    this.style["font-family"] = fontString + "," + subtypeString
   }
 }
