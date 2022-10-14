@@ -40,8 +40,8 @@ export class LameEngine {
       styleTable["height"] = String(todoSize[1]) + "px"
       // POSITION
       styleTable["position"] = "absolute"
-      styleTable["left"] = String(todoPosition[0] + (todoSize[0] * object[0].anchorPoint[0])) + "px"
-      styleTable["top"] = String(todoPosition[1] + (todoSize[1] * object[0].anchorPoint[1])) + "px"
+      styleTable["left"] = String(todoPosition[0] - (todoSize[0] * object[0].anchorPoint[0])) + "px"
+      styleTable["top"] = String(todoPosition[1] - (todoSize[1] * object[0].anchorPoint[1])) + "px"
       // ROTATION
       styleTable["transform"] = "rotate(" + String(object[0].rotation) + "deg)"
 
