@@ -134,7 +134,6 @@ export class Image {
 // Object Classes
 export class Camera {
   constructor() {
-    this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeMultiplier = 1
