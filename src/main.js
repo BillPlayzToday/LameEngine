@@ -7,7 +7,7 @@ export class LameEngine {
     this.renderBoundFunctions = []
     this.previousRenderTime = null
 
-    this.viewport.setAttribute("style","overflow: hidden;")
+    this.viewport.setAttribute("style","overflow: hidden; position: relative;")
   }
 
   // General
