@@ -6,6 +6,8 @@ export class LameEngine {
     this.objects = []
     this.renderBoundFunctions = []
     this.previousRenderTime = null
+
+    this.viewport.setAttribute("style","overflow: hidden;")
   }
 
   // General
