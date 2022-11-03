@@ -116,6 +116,37 @@ export class LameEngine {
       return position[0] + (position[1] * this.viewport.clientHeight)
     }
   }
+
+  shakeCamera(engineInstance,duration,strength,speed) {
+    let startTime = (new Date()).getTime() / 1000
+    let lastValue = 0
+    let finalModification = 0
+    let bindRenderFunction = function(progress) {
+        let currentTime = (new Date()).getTime() / 1000
+        let shakeFactor = currentTime * strength * (speed * 0.05)
+        let runningProgress = (currentTime - startTime) / duration
+        let finalFactor = strength * (Math.sin((2 * runningProgress) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
+
+        if (runningProgress >= 1) {
+            engineInstance.unbind_fromRender(bindRenderFunction)
+            engineInstance.camera.positionX = [
+                engineInstance.camera.positionX[0] - finalModification,
+                engineInstance.camera.positionX[1]
+            ]
+            return
+        }
+
+        let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
+        let diffValue = (newValue - lastValue)
+        engineInstance.camera.positionX = [
+            engineInstance.camera.positionX[0] + diffValue,
+            engineInstance.camera.positionX[1]
+        ]
+        finalModification = finalModification + diffValue
+        lastValue = newValue
+    }
+    engineInstance.bind_toRender(bindRenderFunction)
+  }
 }
 
 // Types
