@@ -15,7 +15,7 @@ export class LameEngine {
     let currentTime = ((new Date()).getTime() / 1000)
     if (this.previousRenderTime) {
       for (let boundFunction of this.renderBoundFunctions) {
-        boundFunction(currentTime - this.previousRenderTime)
+        boundFunction.bind(this,currentTime - this.previousRenderTime)
       }
     }
     this.previousRenderTime = currentTime
