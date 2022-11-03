@@ -117,7 +117,7 @@ export class LameEngine {
     }
   }
 
-  shakeCamera(engineInstance,duration,strength,speed) {
+  shakeCamera(duration,strength,speed) {
     let startTime = (new Date()).getTime() / 1000
     let lastValue = 0
     let finalModification = 0
@@ -128,24 +128,24 @@ export class LameEngine {
         let finalFactor = strength * (Math.sin((2 * runningProgress) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
 
         if (runningProgress >= 1) {
-            engineInstance.unbind_fromRender(bindRenderFunction)
-            engineInstance.camera.positionX = [
-                engineInstance.camera.positionX[0] - finalModification,
-                engineInstance.camera.positionX[1]
+            self.unbind_fromRender(bindRenderFunction)
+            self.camera.positionX = [
+              self.camera.positionX[0] - finalModification,
+                self.camera.positionX[1]
             ]
             return
         }
 
         let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
         let diffValue = (newValue - lastValue)
-        engineInstance.camera.positionX = [
-            engineInstance.camera.positionX[0] + diffValue,
-            engineInstance.camera.positionX[1]
+        self.camera.positionX = [
+          self.camera.positionX[0] + diffValue,
+            self.camera.positionX[1]
         ]
         finalModification = finalModification + diffValue
         lastValue = newValue
     }
-    engineInstance.bind_toRender(bindRenderFunction)
+    self.bind_toRender(bindRenderFunction)
   }
 }
 
