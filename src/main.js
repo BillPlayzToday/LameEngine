@@ -19,9 +19,9 @@ export class LameEngine {
       }
     }
     this.previousRenderTime = currentTime
+    let cameraPositionX = this.toOffset(this.camera.positionX,true)
+    let cameraPositionY = this.toOffset(this.camera.positionY,false)
     for (let object of this.objects) {
-      let cameraPositionX = this.toOffset(this.camera.positionX,true)
-      let cameraPositionY = this.toOffset(this.camera.positionY,false)
       let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
       let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
       if (!object[1]) {
@@ -42,6 +42,10 @@ export class LameEngine {
       styleTable["height"] = String(todoSize[1]) + "px"
       // POSITION
       styleTable["position"] = "absolute"
+      console.log(todoPosition[0])
+      console.log(object[0].positionX)
+      console.log(this.toOffset(object[0].positionX,true))
+      console.log("///////////////////////")
       styleTable["left"] = String(todoPosition[0] - (todoSize[0] * object[0].anchorPoint[0])) + "px"
       styleTable["top"] = String(todoPosition[1] - (todoSize[1] * object[0].anchorPoint[1])) + "px"
       // ROTATION
