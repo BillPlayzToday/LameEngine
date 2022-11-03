@@ -146,7 +146,7 @@ export class LameEngine {
       finalModification = finalModification + diffValue
       lastValue = newValue
     }
-    this.bind_toRender(bindRenderFunction)
+    engineInstance.bind_toRender(bindRenderFunction)
   }
 }
 
