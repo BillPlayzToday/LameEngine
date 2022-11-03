@@ -42,8 +42,7 @@ export class LameEngine {
       styleTable["height"] = String(todoSize[1]) + "px"
       // POSITION
       styleTable["position"] = "absolute"
-      console.log(todoPosition[0])
-      console.log(cameraPositionX)
+      console.log(this.camera.positionX)
       console.log("///////////////////////")
       styleTable["left"] = String(todoPosition[0] - (todoSize[0] * object[0].anchorPoint[0])) + "px"
       styleTable["top"] = String(todoPosition[1] - (todoSize[1] * object[0].anchorPoint[1])) + "px"
