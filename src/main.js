@@ -15,7 +15,7 @@ export class LameEngine {
     let currentTime = ((new Date()).getTime() / 1000)
     if (this.previousRenderTime) {
       for (let boundFunction of this.renderBoundFunctions) {
-        boundFunction.bind(this,currentTime - this.previousRenderTime)()
+        boundFunction(currentTime - this.previousRenderTime)
       }
     }
     this.previousRenderTime = currentTime
@@ -121,29 +121,30 @@ export class LameEngine {
     let startTime = (new Date()).getTime() / 1000
     let lastValue = 0
     let finalModification = 0
+    let engineInstance = this
     let bindRenderFunction = function(progress) {
-        let currentTime = (new Date()).getTime() / 1000
-        let shakeFactor = currentTime * strength * (speed * 0.05)
-        let runningProgress = (currentTime - startTime) / duration
-        let finalFactor = strength * (Math.sin((2 * runningProgress) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
+      let currentTime = (new Date()).getTime() / 1000
+      let shakeFactor = currentTime * strength * (speed * 0.05)
+      let runningProgress = (currentTime - startTime) / duration
+      let finalFactor = strength * (Math.sin((2 * runningProgress) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
 
-        if (runningProgress >= 1) {
-            this.unbind_fromRender(bindRenderFunction)
-            this.camera.positionX = [
-              this.camera.positionX[0] - finalModification,
-                this.camera.positionX[1]
-            ]
-            return
-        }
+      if (runningProgress >= 1) {
+          engineInstance.unbind_fromRender(bindRenderFunction)
+          engineInstance.camera.positionX = [
+            engineInstance.camera.positionX[0] - finalModification,
+            engineInstance.camera.positionX[1]
+          ]
+          return
+      }
 
-        let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
-        let diffValue = (newValue - lastValue)
-        this.camera.positionX = [
-          this.camera.positionX[0] + diffValue,
-            this.camera.positionX[1]
-        ]
-        finalModification = finalModification + diffValue
-        lastValue = newValue
+      let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
+      let diffValue = (newValue - lastValue)
+      engineInstance.camera.positionX = [
+        engineInstance.camera.positionX[0] + diffValue,
+        engineInstance.camera.positionX[1]
+      ]
+      finalModification = finalModification + diffValue
+      lastValue = newValue
     }
     this.bind_toRender(bindRenderFunction)
   }
