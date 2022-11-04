@@ -129,19 +129,19 @@ export class LameEngine {
       let finalFactor = strength * engineInstance.get_sine(runningProgress)
 
       if (runningProgress >= 1) {
-        this.unbind_fromRender(bindRenderFunction)
-        this.camera.positionX = [
-          this.camera.positionX[0] - finalModification,
-          this.camera.positionX[1]
+        engineInstance.unbind_fromRender(bindRenderFunction)
+        engineInstance.camera.positionX = [
+          engineInstance.camera.positionX[0] - finalModification,
+          engineInstance.camera.positionX[1]
         ]
         return
       }
 
       let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
       let diffValue = (newValue - lastValue)
-      this.camera.positionX = [
-        this.camera.positionX[0] + diffValue,
-        this.camera.positionX[1]
+      engineInstance.camera.positionX = [
+        engineInstance.camera.positionX[0] + diffValue,
+        engineInstance.camera.positionX[1]
       ]
       finalModification = finalModification + diffValue
       lastValue = newValue
