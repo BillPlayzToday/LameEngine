@@ -15,13 +15,13 @@ export class LameEngine {
     let currentTime = ((new Date()).getTime() / 1000)
     if (this.previousRenderTime) {
       for (let boundFunction of this.renderBoundFunctions) {
-        boundFunction.bind(this,currentTime - this.previousRenderTime)
+        boundFunction(currentTime - this.previousRenderTime)
       }
     }
     this.previousRenderTime = currentTime
+    let cameraPositionX = this.toOffset(this.camera.positionX,true)
+    let cameraPositionY = this.toOffset(this.camera.positionY,false)
     for (let object of this.objects) {
-      let cameraPositionX = this.toOffset(this.camera.positionX,true)
-      let cameraPositionY = this.toOffset(this.camera.positionY,false)
       let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
       let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
       if (!object[1]) {
@@ -121,31 +121,37 @@ export class LameEngine {
     let startTime = (new Date()).getTime() / 1000
     let lastValue = 0
     let finalModification = 0
+    let engineInstance = this
     let bindRenderFunction = function(progress) {
-        let currentTime = (new Date()).getTime() / 1000
-        let shakeFactor = currentTime * strength * (speed * 0.05)
-        let runningProgress = (currentTime - startTime) / duration
-        let finalFactor = strength * this.get_sine(runningProgress)
+      let currentTime = (new Date()).getTime() / 1000
+      let shakeFactor = currentTime * strength * (speed * 0.05)
+      let runningProgress = (currentTime - startTime) / duration
+      let finalFactor = strength * this.get_sine(runningProgress)
 
-        if (runningProgress >= 1) {
-            this.unbind_fromRender(bindRenderFunction)
-            this.camera.positionX = [
-              this.camera.positionX[0] - finalModification,
-                this.camera.positionX[1]
-            ]
-            return
-        }
-
-        let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
-        let diffValue = (newValue - lastValue)
+      if (runningProgress >= 1) {
+        this.unbind_fromRender(bindRenderFunction)
         this.camera.positionX = [
-          this.camera.positionX[0] + diffValue,
-            this.camera.positionX[1]
+          this.camera.positionX[0] - finalModification,
+          this.camera.positionX[1]
         ]
-        finalModification = finalModification + diffValue
-        lastValue = newValue
+        return
+      }
+
+      let newValue = (Math.sin(shakeFactor) + Math.sin(shakeFactor * Math.PI)) / 2 * finalFactor
+      let diffValue = (newValue - lastValue)
+      this.camera.positionX = [
+        this.camera.positionX[0] + diffValue,
+        this.camera.positionX[1]
+      ]
+      finalModification = finalModification + diffValue
+      lastValue = newValue
     }
     this.bind_toRender(bindRenderFunction)
+  }
+
+  // Maths
+  get_sine(position) {
+    return (Math.sin((2 * position) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
   }
 
   // Maths
