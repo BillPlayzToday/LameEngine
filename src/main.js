@@ -125,7 +125,7 @@ export class LameEngine {
         let currentTime = (new Date()).getTime() / 1000
         let shakeFactor = currentTime * strength * (speed * 0.05)
         let runningProgress = (currentTime - startTime) / duration
-        let finalFactor = strength * (Math.sin((2 * runningProgress) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
+        let finalFactor = strength * this.get_sine(runningProgress)
 
         if (runningProgress >= 1) {
             this.unbind_fromRender(bindRenderFunction)
@@ -146,6 +146,11 @@ export class LameEngine {
         lastValue = newValue
     }
     this.bind_toRender(bindRenderFunction)
+  }
+
+  // Maths
+  get_sine(position) {
+    return (Math.sin((2 * position) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
   }
 }
 
