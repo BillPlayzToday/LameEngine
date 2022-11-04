@@ -153,11 +153,6 @@ export class LameEngine {
   get_sine(position) {
     return (Math.sin((2 * position) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
   }
-
-  // Maths
-  get_sine(position) {
-    return (Math.sin((2 * position) * Math.PI - (Math.PI / 2)) / 2 + 0.5)
-  }
 }
 
 // Types
