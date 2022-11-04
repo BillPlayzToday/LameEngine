@@ -126,7 +126,7 @@ export class LameEngine {
       let currentTime = (new Date()).getTime() / 1000
       let shakeFactor = currentTime * strength * (speed * 0.05)
       let runningProgress = (currentTime - startTime) / duration
-      let finalFactor = strength * this.get_sine(runningProgress)
+      let finalFactor = strength * engineInstance.get_sine(runningProgress)
 
       if (runningProgress >= 1) {
         this.unbind_fromRender(bindRenderFunction)
