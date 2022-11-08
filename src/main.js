@@ -171,10 +171,13 @@ export class Image {
 }
 
 // Object Classes
-export class BaseObject {}
+export class BaseObject {
+  constructor() {}
+}
 
 export class VisualObject extends BaseObject {
   constructor() {
+    super()
     this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
@@ -188,6 +191,7 @@ export class VisualObject extends BaseObject {
 
 export class Camera extends BaseObject {
   constructor() {
+    super()
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeMultiplier = 1
@@ -195,7 +199,9 @@ export class Camera extends BaseObject {
 }
 
 export class Frame extends VisualObject{
-  constructor() {}
+  constructor() {
+    super()
+  }
 
   _objectify() {
     return document.createElement("div")
@@ -207,7 +213,9 @@ export class Frame extends VisualObject{
 }
 
 export class ImageLabel extends VisualObject {
-  constructor() {}
+  constructor() {
+    super()
+  }
 
   _objectify() {
     return document.createElement("img")
@@ -230,6 +238,7 @@ export class ImageLabel extends VisualObject {
 
 export class TextLabel extends VisualObject {
   constructor() {
+    super()
     this._wrapped = false
     this._alignment = "left"
     this._font = ""
