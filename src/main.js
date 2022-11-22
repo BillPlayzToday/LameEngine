@@ -1,11 +1,44 @@
 export class LameEngine {
-  constructor(viewport) {
+  constructor(viewport,classOverwriteFunction = null) {
+    this.config = {
+      inputEvents: [
+        "mousedown",
+        "mouseup",
+        "click"
+      ],
+      clickClips: true
+    }
     this.viewport = viewport
     this.background = null
     this.camera = new Camera()
     this.objects = []
     this.renderBoundFunctions = []
     this.previousRenderTime = null
+    this.inputEvent = function(event,eventName) {
+      let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
+      for (let object of this.objects) {
+        let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
+        let objectPositionB = [objectPositionA + this.toOffset(object.sizeX,true),this.toOffset(object.sizeY,false)]
+        if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
+          for (let onInput of object.onInput) {
+            onInput(event,eventName)
+          }
+          if (!clickClips) {
+            break
+          }
+        }
+      }
+    }
+
+    if (classOverwriteFunction) {
+      classOverwriteFunction()
+    }
+
+    for (let inputEventName of this.config["inputEvents"]) {
+      this.viewport.addEventListener(inputEventName,function(event) {
+        this.inputEvent(event,inputEventName)
+      })
+    }
 
     this.viewport.setAttribute("style","overflow: hidden; position: relative;")
   }
@@ -172,7 +205,19 @@ export class Image {
 
 // Object Classes
 export class BaseObject {
-  constructor() {}
+  constructor() {
+    this.onInput = []
+  }
+
+  bind_toInput(onInput) {
+    this.onInput.push(onInput)
+  }
+
+  unbind_fromClick(onInput) {
+    this.onInput = this.onInput.filter(function(element) {
+      return !(element === onInput)
+    })
+  }
 }
 
 export class VisualObject extends BaseObject {
