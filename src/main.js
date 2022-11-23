@@ -327,11 +327,12 @@ export class TextLabel extends VisualObject {
 
   set_font(fontString,subtypeString) {
     let currentHeadInnerHtml = document.head.innerHTML
-    let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=' + fontString + '&display=swap" rel="stylesheet"> '
+    let fontStringURL = fontString.replace(" ","+")
+    let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=' + fontStringURL + '&display=swap" rel="stylesheet"> '
     if (!currentHeadInnerHtml.includes(preparedLink)) {
       document.head.innerHTML = document.head.innerHTML + "\n" + preparedLink
     }
-    this.style["font-family"] = fontString + "," + subtypeString
+    this.style["font-family"] = "'" + fontString + "'," + subtypeString
   }
 
   set_fontsize(textSizeString) {
