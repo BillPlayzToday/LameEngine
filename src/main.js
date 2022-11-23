@@ -6,7 +6,12 @@ export class LameEngine {
         "mouseup",
         "click"
       ],
-      clickClips: true
+      clickClips: true,
+      defaultViewportStyle: {
+        "overflow": "hidden",
+        "position": "relative",
+        "display": "table"
+      }
     }
     this.viewport = viewport
     this.background = null
@@ -41,7 +46,7 @@ export class LameEngine {
       }.bind(this))
     }
 
-    this.viewport.setAttribute("style","overflow: hidden; position: relative;")
+    this.viewport.setAttribute("style",this.toStyleCSS(this.config.defaultViewportStyle))
   }
 
   // General
