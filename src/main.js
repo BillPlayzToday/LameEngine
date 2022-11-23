@@ -195,6 +195,10 @@ export class RGB {
     this.g = g
     this.b = b
   }
+
+  to_CSS() {
+    return "rgb(" + String(this.r) + "," + String(this.g) + "," + String(this.b) + ")"
+  }
 }
 
 export class Image {
