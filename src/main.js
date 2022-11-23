@@ -81,11 +81,6 @@ export class LameEngine {
       // ROTATION
       styleTable["transform"] = "rotate(" + String(object[0].rotation) + "deg)"
 
-      let styleTableEntries = Object.entries(styleTable)
-      for (let stylePair of styleTableEntries) {
-        finalStyle = finalStyle + stylePair[0] + ":" + stylePair[1] + ";"
-      }
-
       object[1].setAttribute("style",finalStyle)
     }
   }
@@ -149,6 +144,14 @@ export class LameEngine {
     } else {
       return position[0] + (position[1] * this.viewport.clientHeight)
     }
+  }
+
+  toStyleCSS(styleTable) {
+    let styleTableEntries = Object.entries(styleTable)
+    for (let stylePair of styleTableEntries) {
+      finalStyle = finalStyle + stylePair[0] + ":" + stylePair[1] + ";"
+    }
+    return finalStyle
   }
 
   shakeCamera(duration,strength,speed) {
