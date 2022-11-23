@@ -325,6 +325,13 @@ export class TextLabel extends VisualObject {
     this.style["text-align"] = alignment
   }
 
+  set_verticalAlignment(alignment) {
+    if (!this.style["display"] == "inline" && !this.style["display"] == "table-cell") {
+      throw "Text Vertical Alignment requires display to be set to inline or table-cell."
+    }
+    this.style["vertical-align"] = alignment
+  }
+
   set_font(fontString,subtypeString) {
     let currentHeadInnerHtml = document.head.innerHTML
     let fontStringURL = fontString.replace(" ","+")
