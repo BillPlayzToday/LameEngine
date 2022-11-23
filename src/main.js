@@ -16,7 +16,8 @@ export class LameEngine {
     this.previousRenderTime = null
     this.inputEvent = function(event,eventName) {
       let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
-      for (let object of this.objects) {
+      for (let object in this.objects) {
+        console.log(this.objects)
         console.log(object)
         console.log(object.positionX)
         console.log(object.positionY)
