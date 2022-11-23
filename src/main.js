@@ -35,8 +35,9 @@ export class LameEngine {
     }
 
     for (let inputEventName of this.config["inputEvents"]) {
+      let engineInstance = this
       this.viewport.addEventListener(inputEventName,function(event) {
-        this.inputEvent(event,inputEventName)
+        engineInstance.inputEvent(event,inputEventName)
       })
     }
 
