@@ -81,7 +81,7 @@ export class LameEngine {
       // ROTATION
       styleTable["transform"] = "rotate(" + String(object[0].rotation) + "deg)"
 
-      object[1].setAttribute("style",finalStyle)
+      object[1].setAttribute("style",this.toStyleCSS(styleTable))
     }
   }
 
