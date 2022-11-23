@@ -325,6 +325,10 @@ export class TextLabel extends VisualObject {
     this.style["text-align"] = alignment
   }
 
+  set_verticalAlignment(alignment) {
+    this.style["vertical-align"] = alignment
+  }
+
   set_font(fontString,subtypeString) {
     let currentHeadInnerHtml = document.head.innerHTML
     let fontStringURL = fontString.replace(" ","+")
