@@ -35,10 +35,9 @@ export class LameEngine {
     }
 
     for (let inputEventName of this.config["inputEvents"]) {
-      let engineInstance = this
       this.viewport.addEventListener(inputEventName,function(event) {
-        engineInstance.inputEvent(event,inputEventName)
-      })
+        this.inputEvent.bind(this,[event,inputEventName])()
+      }.bind(this))
     }
 
     this.viewport.setAttribute("style","overflow: hidden; position: relative;")
