@@ -63,7 +63,7 @@ export class LameEngine {
         this.viewport.appendChild(object[1])
         object[0].compiledObject = object[1]
         if (object[2]) {
-          object[2].bind(object[0],[object[1]])
+          object[2].bind(object[0],[object[1]])()
           object[2] = undefined
         }
       }
