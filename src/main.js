@@ -68,7 +68,6 @@ export class LameEngine {
         }
       }
 
-      let finalStyle = String()
       let styleTable = object[0].style
       
       // SIZE
@@ -147,6 +146,7 @@ export class LameEngine {
   }
 
   toStyleCSS(styleTable) {
+    let finalStyle = String()
     let styleTableEntries = Object.entries(styleTable)
     for (let stylePair of styleTableEntries) {
       finalStyle = finalStyle + stylePair[0] + ":" + stylePair[1] + ";"
