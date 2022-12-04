@@ -9,8 +9,7 @@ export class LameEngine {
       clickClips: true,
       defaultViewportStyle: {
         "overflow": "hidden",
-        "position": "relative",
-        "display": "table"
+        "position": "relative"
       }
     }
     this.viewport = viewport
@@ -331,13 +330,6 @@ export class TextLabel extends VisualObject {
       throw "Text Alignment needs to be set to left, center, right or justify."
     }
     this.style["text-align"] = alignment
-  }
-
-  set_verticalAlignment(alignment) {
-    if (!this.style["display"] == "inline" && !this.style["display"] == "table-cell") {
-      throw "Text Vertical Alignment requires display to be set to inline or table-cell."
-    }
-    this.style["vertical-align"] = alignment
   }
 
   set_font(fontString,subtypeString) {
