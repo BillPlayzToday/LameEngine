@@ -97,6 +97,12 @@ export class LameEngine {
     this.objects.push([object,null,onCompiled])
   }
 
+  added_objects(objects) {
+    return this.objects.filter(function(value) {
+      return objects.includes(value[0])
+    })
+  }
+
   remove_objects(objects) {
     this.objects = this.objects.filter(function(value) {
       if (!objects.includes(value[0])) {
