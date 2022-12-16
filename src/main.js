@@ -58,6 +58,8 @@ export class LameEngine {
 
   // General
   render() {
+    this.camera.viewportSize = [this.viewport.clientWidth,this.viewport.clientHeight]
+
     let currentTime = ((new Date()).getTime() / 1000)
     if (this.previousRenderTime) {
       for (let boundFunction of this.renderBoundFunctions) {
@@ -157,9 +159,9 @@ export class LameEngine {
   // Utility
   toOffset(position,isX) {
     if (isX) {
-      return position[0] + (position[1] * this.viewport.clientWidth)
+      return position[0] + (position[1] * this.camera.viewportSize[0])
     } else {
-      return position[0] + (position[1] * this.viewport.clientHeight)
+      return position[0] + (position[1] * this.camera.viewportSize[1])
     }
   }
 
@@ -262,6 +264,7 @@ export class VisualObject extends BaseObject {
 export class Camera extends BaseObject {
   constructor() {
     super()
+    this.viewportSize = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeMultiplier = 1
