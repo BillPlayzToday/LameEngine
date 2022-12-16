@@ -223,19 +223,7 @@ export class Image {
 
 // Object Classes
 export class BaseObject {
-  constructor() {
-    this.onInput = []
-  }
-
-  bind_toInput(onInput) {
-    this.onInput.push(onInput)
-  }
-
-  unbind_fromClick(onInput) {
-    this.onInput = this.onInput.filter(function(element) {
-      return !(element === onInput)
-    })
-  }
+  constructor() {}
 }
 
 export class VisualObject extends BaseObject {
@@ -249,6 +237,17 @@ export class VisualObject extends BaseObject {
     this.rotation = 0
     this.style = {}
     this.compiledObject = null
+    this.onInput = []
+  }
+  
+  bind_toInput(onInput) {
+    this.onInput.push(onInput)
+  }
+
+  unbind_fromInput(onInput) {
+    this.onInput = this.onInput.filter(function(element) {
+      return !(element === onInput)
+    })
   }
 }
 
@@ -258,6 +257,20 @@ export class Camera extends BaseObject {
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.sizeMultiplier = 1
+    this.onKey = {}
+  }
+
+  bind_toKey(keyId,onKey) {
+    if (!this.onKey[keyId]) {
+      this.onKey[keyId] = []
+    }
+    this.onKey[keyId].push(onKey)
+  }
+
+  unbind_fromKey(keyId,onKey) {
+    this.onKey[keyId] = this.onKey[keyId].filter(function(element) {
+      return !(element === onKey)
+    })
   }
 }
 
