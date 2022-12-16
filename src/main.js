@@ -4,7 +4,9 @@ export class LameEngine {
       inputEvents: [
         "mousedown",
         "mouseup",
-        "click"
+        "click",
+        "keydown",
+        "keyup"
       ],
       clickClips: true,
       defaultViewportStyle: {
@@ -19,18 +21,24 @@ export class LameEngine {
     this.renderBoundFunctions = []
     this.previousRenderTime = null
     this.inputEvent = function(event,eventName) {
-      let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
-      for (let object of this.objects) {
-        object = object[0]
-        let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
-        let objectPositionB = [objectPositionA + this.toOffset(object.sizeX,true),this.toOffset(object.sizeY,false)]
-        if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
-          for (let onInput of object.onInput) {
-            onInput(event,eventName)
+      if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
+        let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
+        for (let object of this.objects) {
+          object = object[0]
+          let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
+          let objectPositionB = [objectPositionA + this.toOffset(object.sizeX,true),this.toOffset(object.sizeY,false)]
+          if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
+            for (let onInput of object.onInput) {
+              onInput(event,eventName)
+            }
+            if (!clickClips) {
+              break
+            }
           }
-          if (!clickClips) {
-            break
-          }
+        }
+      } else if (eventName == "keydown" || eventName == "keyup") {
+        for (let onKey of this.camera.onKey[event.keyCode]) {
+          onKey(event.keyCode,eventName)
         }
       }
     }
