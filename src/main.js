@@ -47,6 +47,9 @@ export class LameEngine {
             alreadyKnown = true
           }
         } else if (eventName == "keyup") {
+          if (!this.keysDown.includes(event.keyCode)) {
+            return
+          }
           this.keysDown = this.keysDown.filter(function(element) {
             return (element != event.keyCode)
           })
