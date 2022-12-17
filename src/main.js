@@ -49,7 +49,7 @@ export class LameEngine {
     }
 
     for (let inputEventName of this.config["inputEvents"]) {
-      this.viewport.addEventListener(inputEventName,function(event) {
+      document.addEventListener(inputEventName,function(event) {
         this.inputEvent.bind(this)(event,inputEventName)
       }.bind(this))
     }
