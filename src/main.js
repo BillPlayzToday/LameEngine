@@ -67,8 +67,8 @@ export class LameEngine {
       }
     }
     this.previousRenderTime = currentTime
-    let cameraPositionX = this.toOffset(this.camera.positionX,true)
-    let cameraPositionY = this.toOffset(this.camera.positionY,false)
+    let cameraPositionX = this.toOffset(this.camera.positionX,true) - (this.camera.viewportSize[0] / 2)
+    let cameraPositionY = this.toOffset(this.camera.positionY,false)  - (this.camera.viewportSize[1] / 2)
     for (let object of this.objects) {
       let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
       let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
