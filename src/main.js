@@ -37,8 +37,10 @@ export class LameEngine {
           }
         }
       } else if (eventName == "keydown" || eventName == "keyup") {
-        for (let onKey of this.camera.onKey[event.keyCode]) {
-          onKey(event.keyCode,eventName)
+        if (this.camera.onKey[event.keyCode]) {
+          for (let onKey of this.camera.onKey[event.keyCode]) {
+            onKey(event.keyCode,eventName)
+          }
         }
       }
     }
