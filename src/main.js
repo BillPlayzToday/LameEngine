@@ -20,6 +20,7 @@ export class LameEngine {
     this.objects = []
     this.renderBoundFunctions = []
     this.previousRenderTime = null
+    this.keysDown = []
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
@@ -37,9 +38,22 @@ export class LameEngine {
           }
         }
       } else if (eventName == "keydown" || eventName == "keyup") {
+        let alreadyKnown = undefined
+        if (eventName == "keydown") {
+          if (!this.keysDown.includes(event.keyCode)) {
+            this.keysDown.push(event.keyCode)
+            alreadyKnown = false
+          } else {
+            alreadyKnown = true
+          }
+        } else if (eventName == "keyup") {
+          this.keysDown = this.keysDown.filter(function(element) {
+            return (element != event.keyCode)
+          })
+        }
         if (this.camera.onKey[event.keyCode]) {
           for (let onKey of this.camera.onKey[event.keyCode]) {
-            onKey(event.keyCode,eventName)
+            onKey(event.keyCode,eventName,alreadyKnown)
           }
         }
       }
