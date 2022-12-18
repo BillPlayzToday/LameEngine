@@ -333,11 +333,17 @@ export class ImageLabel extends VisualObject {
     return document.createElement("img")
   }
 
-  set_image(imageObject) {
+  set_image(imageReference) {
     if (!this.compiledObject) {
       throw "Object is not compiled yet. Use a callback at add_object to set the image value!"
     }
-    this.compiledObject.setAttribute("src",imageObject.src)
+    let imageUrl = ""
+    if (imageReference instanceof Image) {
+      imageUrl = imageReference.src
+    } else {
+      imageUrl = imageReference
+    }
+    this.compiledObject.setAttribute("src",imageUrl)
   }
 
   set_rendering(renderingString) {
