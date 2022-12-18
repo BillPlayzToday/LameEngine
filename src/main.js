@@ -23,8 +23,7 @@ export class LameEngine {
     this.keysDown = []
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
-        let mouseHit = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
-        for (let object of (this.get_objectsAt(mouseHit))) {
+        for (let object of (this.get_objectsAt(this.mousePosition))) {
           for (let onInput of object.onInput) {
             onInput(event,eventName)
           }
@@ -55,6 +54,10 @@ export class LameEngine {
           }
         }
       }
+    }
+    this.mousePosition = [0,0]
+    this.onMouseMove = function(event) {
+      this.mousePosition = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
     }
 
     if (classOverwriteFunction) {
