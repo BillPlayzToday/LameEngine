@@ -32,7 +32,10 @@ export class LameEngine {
             continue
           }
           let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * this.toOffset(object.sizeX,true)),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * this.toOffset(object.sizeY,false))]
+          console.log("/////////////////////////////////")
           console.log(objectPositionA)
+          console.log(this.toOffset(object.positionY,false) - (object.anchorPoint[1] * this.toOffset(object.sizeY,false)))
+          console.log(object.anchorPoint)
           let objectPositionB = [objectPositionA[0] + this.toOffset(object.sizeX,true),objectPositionA[1] + this.toOffset(object.sizeY,false)]
           if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
             for (let onInput of object.onInput) {
