@@ -28,7 +28,11 @@ export class LameEngine {
         console.log(mouseHit)
         for (let object of this.objects) {
           object = object[0]
+          if (object.style["visibility"] == "hidden") {
+            continue
+          }
           let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
+          console.log(objectPositionA)
           let objectPositionB = [objectPositionA + this.toOffset(object.sizeX,true),this.toOffset(object.sizeY,false)]
           if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
             for (let onInput of object.onInput) {
