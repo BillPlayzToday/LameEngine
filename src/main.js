@@ -92,6 +92,7 @@ export class LameEngine {
       let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
       let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
       object[0].absolutePosition = todoPosition
+      object[0].absoluteSize = todoSize
       if (object[0].aspectRatio[0] == "X") {
         todoSize[1] = todoSize[0] * object[0].aspectRatio[1]
       } else if (object[0].aspectRatio[0] == "Y") {
@@ -269,6 +270,7 @@ export class VisualObject extends BaseObject {
     this.positionX = [0,0]
     this.positionY = [0,0]
     this.absolutePosition = [0,0]
+    this.absoluteSize = [0,0]
     this.sizeX = [0,0]
     this.sizeY = [0,0]
     this.rotation = 0
