@@ -24,20 +24,12 @@ export class LameEngine {
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
-        for (let object of this.objects) {
-          object = object[0]
-          if (object.style["visibility"] == "hidden") {
-            continue
+        for (let object of this.get_objectsAt(mouseHit)) {
+          for (let onInput of object.onInput) {
+            onInput(event,eventName)
           }
-          let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * object.absoluteSize[0]),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * object.absoluteSize[1])]
-          let objectPositionB = [objectPositionA[0] + object.absoluteSize[0],objectPositionA[1] + object.absoluteSize[1]]
-          if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
-            for (let onInput of object.onInput) {
-              onInput(event,eventName)
-            }
-            if (!this.config.clickClips) {
-              break
-            }
+          if (!this.config["clickClips"]) {
+            break
           }
         }
       } else if (eventName == "keydown" || eventName == "keyup") {
@@ -233,6 +225,21 @@ export class LameEngine {
       lastValue = newValue
     }
     this.bind_toRender(bindRenderFunction)
+  }
+
+  get_objectsAt(position) {
+    let objectsAt = []
+    for (let object of this.objects) {
+      object = object[0]
+      if (object.style["visibility"] == "hidden") {
+        continue
+      }
+      let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * object.absoluteSize[0]),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * object.absoluteSize[1])]
+      let objectPositionB = [objectPositionA[0] + object.absoluteSize[0],objectPositionA[1] + object.absoluteSize[1]]
+      if ((position[0] >= objectPositionA[0] && position[1] >= objectPositionA[1]) && (position[0] <= objectPositionB[0] && position[1] <= objectPositionB[1])) {
+        objectsAt.push(object)
+      }
+    }
   }
 
   // Maths
