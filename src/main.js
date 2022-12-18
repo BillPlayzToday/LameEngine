@@ -22,23 +22,20 @@ export class LameEngine {
     this.previousRenderTime = null
     this.keysDown = []
     this.inputEvent = function(event,eventName) {
-      console.log(eventName)
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
-        console.log(mouseHit)
         for (let object of this.objects) {
           object = object[0]
           if (object.style["visibility"] == "hidden") {
             continue
           }
-          let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
-          console.log(objectPositionA)
-          let objectPositionB = [objectPositionA + this.toOffset(object.sizeX,true),this.toOffset(object.sizeY,false)]
+          let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * object.absoluteSize[0]),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * object.absoluteSize[1])]
+          let objectPositionB = [objectPositionA[0] + object.absoluteSize[0],objectPositionA[1] + object.absoluteSize[1]]
           if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
             for (let onInput of object.onInput) {
               onInput(event,eventName)
             }
-            if (!clickClips) {
+            if (!this.config.clickClips) {
               break
             }
           }
@@ -179,7 +176,7 @@ export class LameEngine {
       this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; background-color: rgb(" + String(visual.r) + "," + String(visual.g) + "," + String(visual.b) + ");")
     } else if (visual instanceof Image) {
       this.background = document.createElement("img")
-      this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated;")
+      this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; object-fit: cover;")
       this.background.setAttribute("src",visual.src)
     }
 
