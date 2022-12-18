@@ -22,6 +22,7 @@ export class LameEngine {
     this.previousRenderTime = null
     this.keysDown = []
     this.inputEvent = function(event,eventName) {
+      console.log(eventName)
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
         console.log(mouseHit)
