@@ -24,6 +24,7 @@ export class LameEngine {
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset(this.camera.positionX,true),event.clientY - this.toOffset(this.camera.positionY,false)]
+        console.log(mouseHit)
         for (let object of this.objects) {
           object = object[0]
           let objectPositionA = [this.toOffset(object.positionX,true),this.toOffset(object.positionY,false)]
