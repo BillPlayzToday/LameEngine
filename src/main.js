@@ -2,6 +2,7 @@ export class LameEngine {
   constructor(viewport,classOverwriteFunction = null) {
     this.config = {
       inputEvents: [
+        "mousemove",
         "mousedown",
         "mouseup",
         "click",
@@ -21,6 +22,7 @@ export class LameEngine {
     this.renderBoundFunctions = []
     this.previousRenderTime = null
     this.keysDown = []
+    this.mousePosition = [0,0]
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         for (let object of (this.get_objectsAt(this.mousePosition))) {
@@ -53,11 +55,9 @@ export class LameEngine {
             onKey(event.keyCode,eventName,alreadyKnown)
           }
         }
+      } else if (eventName == "mousemove") {
+        this.mousePosition = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
       }
-    }
-    this.mousePosition = [0,0]
-    this.onMouseMove = function(event) {
-      this.mousePosition = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
     }
 
     if (classOverwriteFunction) {
