@@ -25,17 +25,12 @@ export class LameEngine {
       console.log(eventName)
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
         let mouseHit = [event.clientX - this.toOffset([this.camera.positionX[0],this.camera.positionX[1] - 0.5],true),event.clientY - this.toOffset([this.camera.positionY[0],this.camera.positionY[1] - 0.5],false)]
-        console.log(mouseHit)
         for (let object of this.objects) {
           object = object[0]
           if (object.style["visibility"] == "hidden") {
             continue
           }
-          let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * this.toOffset(object.sizeX,true)),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * this.toOffset(object.sizeY,false))]
-          console.log("/////////////////////////////////")
-          console.log(objectPositionA)
-          console.log(this.toOffset(object.positionY,false) - (object.anchorPoint[1] * this.toOffset(object.sizeY,false)))
-          console.log(object.anchorPoint)
+          let objectPositionA = [this.toOffset(object.positionX,true) - (object.anchorPoint[0] * object.absoluteSize[0]),this.toOffset(object.positionY,false) - (object.anchorPoint[1] * object.absoluteSize[1])]
           let objectPositionB = [objectPositionA[0] + this.toOffset(object.sizeX,true),objectPositionA[1] + this.toOffset(object.sizeY,false)]
           if ((mouseHit[0] >= objectPositionA[0] && mouseHit[1] >= objectPositionA[1]) && (mouseHit[0] <= objectPositionB[0] && mouseHit[1] <= objectPositionB[1])) {
             for (let onInput of object.onInput) {
