@@ -1,5 +1,6 @@
 export class LameEngine {
   constructor(viewport,classOverwriteFunction = null) {
+    this.get_objectsAt()
     this.config = {
       inputEvents: [
         "mousedown",
@@ -240,6 +241,7 @@ export class LameEngine {
         objectsAt.push(object)
       }
     }
+    return objectsAt
   }
 
   // Maths
