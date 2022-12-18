@@ -36,7 +36,7 @@ export class LameEngine {
             for (let onInput of object.onInput) {
               onInput(event,eventName)
             }
-            if (!clickClips) {
+            if (!this.config.clickClips) {
               break
             }
           }
