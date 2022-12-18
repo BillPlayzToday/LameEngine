@@ -290,8 +290,8 @@ export class Camera extends BaseObject {
   constructor() {
     super()
     this.viewportSize = [0,0]
-    this.positionX = [0,0]
-    this.positionY = [0,0]
+    this.positionX = [0,0.5]
+    this.positionY = [0,0.5]
     this.sizeMultiplier = 1
     this.onKey = {}
   }
