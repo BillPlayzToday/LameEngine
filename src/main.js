@@ -171,7 +171,7 @@ export class LameEngine {
       this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; background-color: rgb(" + String(visual.r) + "," + String(visual.g) + "," + String(visual.b) + ");")
     } else if (visual instanceof Image) {
       this.background = document.createElement("img")
-      this.background.setAttribute("style","position: absolute; width: 100%; height: 100%;")
+      this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; background-size: cover;")
       this.background.setAttribute("src",visual.src)
     }
 
