@@ -22,6 +22,7 @@ export class LameEngine {
     this.renderBoundFunctions = []
     this.previousRenderTime = null
     this.keysDown = []
+    this.mouseHovering = []
     this.mousePosition = [0,0]
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
@@ -127,6 +128,17 @@ export class LameEngine {
 
       object[1].setAttribute("style",this.toStyleCSS(styleTable))
     }
+
+    let objectsAtMouse = this.get_objectsAt(this.mousePosition)
+    for (let object of objectsAtMouse) {
+      if (!this.mouseHovering.includes(object)) {
+        continue
+      }
+      this.mouseHovering.push(object)
+    }
+    this.mouseHovering = this.mouseHovering.filter(function(value) {
+      return objectsAtMouse.includes(value)
+    })
   }
 
   yield_loop() {
@@ -151,6 +163,9 @@ export class LameEngine {
       }
       value[1].remove()
       return false
+    })
+    this.mouseHovering = this.mouseHovering.filter(function(value) {
+      return !objects.includes(value)
     })
   }
 
