@@ -22,6 +22,7 @@ export class LameEngine {
     this.renderBoundFunctions = []
     this.previousRenderTime = null
     this.keysDown = []
+    this.mouseHovering = []
     this.mousePosition = [0,0]
     this.inputEvent = function(event,eventName) {
       if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
@@ -87,8 +88,15 @@ export class LameEngine {
     let cameraPositionX = this.toOffset(this.camera.positionX,true) - (this.camera.viewportSize[0] / 2)
     let cameraPositionY = this.toOffset(this.camera.positionY,false)  - (this.camera.viewportSize[1] / 2)
     for (let object of this.objects) {
-      let todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
-      let todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
+      let todoPosition = null
+      let todoSize = null
+      if (object[0].stick) {
+        todoPosition = [this.toOffset(object[0].positionX,true),this.toOffset(object[0].positionY,false)]
+        todoSize = [this.toOffset(object[0].sizeX,true),this.toOffset(object[0].sizeY,false)]
+      } else {
+        todoPosition = [(this.toOffset(object[0].positionX,true) - cameraPositionX),(this.toOffset(object[0].positionY,false) - cameraPositionY)]
+        todoSize = [(this.toOffset(object[0].sizeX,true) * this.camera.sizeMultiplier),(this.toOffset(object[0].sizeY,false) * this.camera.sizeMultiplier)]
+      }
       object[0].absolutePosition = todoPosition
       object[0].absoluteSize = todoSize
       if (object[0].aspectRatio[0] == "X") {
@@ -120,6 +128,17 @@ export class LameEngine {
 
       object[1].setAttribute("style",this.toStyleCSS(styleTable))
     }
+
+    let objectsAtMouse = this.get_objectsAt(this.mousePosition)
+    for (let object of objectsAtMouse) {
+      if (!this.mouseHovering.includes(object)) {
+        continue
+      }
+      this.mouseHovering.push(object)
+    }
+    this.mouseHovering = this.mouseHovering.filter(function(value) {
+      return objectsAtMouse.includes(value)
+    })
   }
 
   yield_loop() {
@@ -144,6 +163,9 @@ export class LameEngine {
       }
       value[1].remove()
       return false
+    })
+    this.mouseHovering = this.mouseHovering.filter(function(value) {
+      return !objects.includes(value)
     })
   }
 
@@ -280,6 +302,7 @@ export class VisualObject extends BaseObject {
   constructor() {
     super()
     this.aspectRatio = ["",-1]
+    this.stick = false
     this.anchorPoint = [0,0]
     this.positionX = [0,0]
     this.positionY = [0,0]
