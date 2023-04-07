@@ -64,7 +64,7 @@ export class LameEngine {
         }
 
         if (classOverwriteFunction) {
-            classOverwriteFunction()
+            classOverwriteFunction.bind(this)()
         }
 
         for (let inputEventName of this.config["inputEvents"]) {
