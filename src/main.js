@@ -1,5 +1,5 @@
 export class LameEngine {
-    constructor(viewport,classOverwriteFunction = null) {
+    constructor(viewport,classOverwriteFunction = null,onFirstRender = null) {
         this.config = {
             inputEvents: [
                 "mousemove",
@@ -24,6 +24,8 @@ export class LameEngine {
         this.keysDown = []
         this.mouseHovering = []
         this.mousePosition = [0,0]
+        this.hasRendered = false
+        this.onFirstRender = onFirstRender
         this.inputEvent = function(event,eventName) {
             if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
                 for (let object of (this.get_objectsAt(this.mousePosition))) {
@@ -139,6 +141,13 @@ export class LameEngine {
         this.mouseHovering = this.mouseHovering.filter(function(value) {
             return objectsAtMouse.includes(value)
         })
+
+        if (!this.hasRendered) {
+            this.hasRendered = true
+            if (this.onFirstRender) {
+                this.onFirstRender.bind(this)()
+            }
+        }
     }
 
     yield_loop() {
