@@ -155,6 +155,11 @@ export class LameEngine {
         window.requestAnimationFrame(this.yield_loop.bind(this))
     }
 
+    break_loop(breakTime) {
+        this.render()
+        setTimeout(this.break_loop.bind(this,breakTime),breakTime)
+    }
+
     add_object(object,onCompiled) {
         this.objects.push([object,null,onCompiled])
     }
