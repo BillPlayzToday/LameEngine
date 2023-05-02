@@ -26,6 +26,7 @@ export class LameEngine {
         this.mousePosition = [0,0]
         this.hasRendered = false
         this.onFirstRender = onFirstRender
+        this.shutdown = false
         this.inputEvent = function(event,eventName) {
             if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
                 for (let object of (this.get_objectsAt(this.mousePosition))) {
@@ -69,6 +70,9 @@ export class LameEngine {
 
         for (let inputEventName of this.config["inputEvents"]) {
             document.addEventListener(inputEventName,function(event) {
+                if (this.shutdown) {
+                    document.removeEventListener(inputEventName,arguments.callee)
+                }
                 this.inputEvent.bind(this)(event,inputEventName)
             }.bind(this))
         }
@@ -151,11 +155,17 @@ export class LameEngine {
     }
 
     yield_loop() {
+        if (this.shutdown) {
+            return
+        }
         this.render()
         window.requestAnimationFrame(this.yield_loop.bind(this))
     }
 
     break_loop(breakTime) {
+        if (this.shutdown) {
+            return
+        }
         this.render()
         setTimeout(this.break_loop.bind(this,breakTime),breakTime)
     }
@@ -189,6 +199,16 @@ export class LameEngine {
 
     unbind_fromRender(boundFunction) {
         this.renderBoundFunctions = this.renderBoundFunctions.filter(item => item != boundFunction)
+    }
+
+    destroy() {
+        this.shutdown = true
+        this.remove_objects(this.objects)
+        for (let child of this.viewport.children) {
+            child.remove()
+        }
+        this.viewport.removeAttribute("style")
+        delete this
     }
 
     // Visual
