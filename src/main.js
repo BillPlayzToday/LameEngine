@@ -16,22 +16,26 @@ export class LameEngine {
             }
         }
         this.viewport = viewport
-        this.background = null
-        this.camera = new Camera()
-        this.objects = []
-        this.renderBoundFunctions = []
-        this.previousRenderTime = null
-        this.keysDown = []
         this.mouseHovering = []
         this.mousePosition = [0,0]
         this.hasRendered = false
-        this.onFirstRender = onFirstRender
-        this.shutdown = false
-        this.inputEvent = function(event,eventName) {
+        this.camera = new Camera()
+        this.previousRenderTime = null
+        this.keysDown = []
+        this._background = null
+        this._objects = []
+        this._renderBoundFunctions = []
+        this._inputCatchers = []
+        this._onFirstRender = onFirstRender
+        this._shutdown = false
+        this._inputEvent = function(event,eventName) {
+            for (let onInput of this._inputCatchers) {
+                onInput.bind(this,event,eventName)
+            }
             if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
                 for (let object of (this.get_objectsAt(this.mousePosition))) {
                     for (let onInput of object.onInput) {
-                        onInput(event,eventName)
+                        onInput.bind(this,event,eventName)()
                     }
                     if (!this.config["clickClips"]) {
                         break
@@ -87,14 +91,14 @@ export class LameEngine {
 
         let currentTime = ((new Date()).getTime() / 1000)
         if (this.previousRenderTime) {
-            for (let boundFunction of this.renderBoundFunctions) {
+            for (let boundFunction of this._renderBoundFunctions) {
                 boundFunction(currentTime - this.previousRenderTime)
             }
         }
         this.previousRenderTime = currentTime
         let cameraPositionX = this.toOffset(this.camera.positionX,true) - (this.camera.viewportSize[0] / 2)
         let cameraPositionY = this.toOffset(this.camera.positionY,false)    - (this.camera.viewportSize[1] / 2)
-        for (let object of this.objects) {
+        for (let object of this._objects) {
             let todoPosition = null
             let todoSize = null
             if (object[0].stick) {
@@ -149,14 +153,14 @@ export class LameEngine {
 
         if (!this.hasRendered) {
             this.hasRendered = true
-            if (this.onFirstRender) {
-                this.onFirstRender.bind(this)()
+            if (this._onFirstRender) {
+                this._onFirstRender.bind(this)()
             }
         }
     }
 
     yield_loop() {
-        if (this.shutdown) {
+        if (this._shutdown) {
             return
         }
         this.render()
@@ -164,7 +168,7 @@ export class LameEngine {
     }
 
     break_loop(breakTime) {
-        if (this.shutdown) {
+        if (this._shutdown) {
             return
         }
         this.render()
@@ -172,17 +176,17 @@ export class LameEngine {
     }
 
     add_object(object,onCompiled) {
-        this.objects.push([object,null,onCompiled])
+        this._objects.push([object,null,onCompiled])
     }
 
     added_objects(objects) {
-        return this.objects.filter(function(value) {
+        return this._objects.filter(function(value) {
             return objects.includes(value[0])
         })
     }
 
     remove_objects(objects) {
-        this.objects = this.objects.filter(function(value) {
+        this._objects = this._objects.filter(function(value) {
             if (!objects.includes(value[0])) {
                 return true
             }
@@ -195,16 +199,24 @@ export class LameEngine {
     }
 
     bind_toRender(bindFunction) {
-        this.renderBoundFunctions.push(bindFunction)
+        this._renderBoundFunctions.push(bindFunction)
     }
 
     unbind_fromRender(boundFunction) {
-        this.renderBoundFunctions = this.renderBoundFunctions.filter(item => item != boundFunction)
+        this._renderBoundFunctions = this._renderBoundFunctions.filter(item => item != boundFunction)
+    }
+
+    bind_toAllInputs(bindFunction) {
+        this._inputCatchers.push(bindFunction)
+    }
+
+    unbind_fromAllInputs(boundFunction) {
+        this._inputCatchers = this._inputCatchers.filter(item => item != boundFunction)
     }
 
     destroy() {
-        this.shutdown = true
-        this.remove_objects(this.objects)
+        this._shutdown = true
+        this.remove_objects(this._objects)
         for (let child of this.viewport.children) {
             child.remove()
         }
@@ -218,22 +230,22 @@ export class LameEngine {
     }
 
     set_background(visual) {
-        if (this.background) {
-            this.background.remove()
-            this.background = null
+        if (this._background) {
+            this._background.remove()
+            this._background = null
         }
 
         if (visual instanceof RGB) {
-            this.background = document.createElement("div")
-            this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; background-color: rgb(" + String(visual.r) + "," + String(visual.g) + "," + String(visual.b) + ");")
+            this._background = document.createElement("div")
+            this._background.setAttribute("style","position: absolute; width: 100%; height: 100%; background-color: rgb(" + String(visual.r) + "," + String(visual.g) + "," + String(visual.b) + ");")
         } else if (visual instanceof Image) {
-            this.background = document.createElement("img")
-            this.background.setAttribute("style","position: absolute; width: 100%; height: 100%; object-fit: cover;")
-            this.background.setAttribute("src",visual.src)
+            this._background = document.createElement("img")
+            this._background.setAttribute("style","position: absolute; width: 100%; height: 100%; object-fit: cover;")
+            this._background.setAttribute("src",visual.src)
         }
 
-        if (this.background) {
-            this.viewport.appendChild(this.background)
+        if (this._background) {
+            this.viewport.appendChild(this._background)
         }
     }
 
@@ -289,7 +301,7 @@ export class LameEngine {
 
     get_objectsAt(position) {
         let objectsAt = []
-        for (let object of this.objects) {
+        for (let object of this._objects) {
             object = object[0]
             if (object.style["visibility"] == "hidden") {
                 continue
