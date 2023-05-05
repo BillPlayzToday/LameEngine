@@ -69,12 +69,13 @@ export class LameEngine {
         }
 
         for (let inputEventName of this.config["inputEvents"]) {
-            document.addEventListener(inputEventName,function(event) {
+            let newEventListener = function(event) {
                 if (this.shutdown) {
-                    document.removeEventListener(inputEventName,arguments.callee)
+                    document.removeEventListener(inputEventName,newEventListener)
                 }
                 this.inputEvent.bind(this)(event,inputEventName)
-            }.bind(this))
+            }
+            document.addEventListener(inputEventName,newEventListener.bind(this))
         }
 
         this.viewport.setAttribute("style",this.toStyleCSS(this.config.defaultViewportStyle))
