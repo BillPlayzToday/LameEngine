@@ -190,7 +190,11 @@ export class LameEngine {
             if (!objects.includes(value[0])) {
                 return true
             }
-            value[1].remove()
+            if (value[1]) {
+                console.log("removing")
+                console.log(value[1])
+                value[1].remove()
+            }
             return false
         })
         this.mouseHovering = this.mouseHovering.filter(function(value) {
