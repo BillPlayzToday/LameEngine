@@ -77,7 +77,7 @@ export class LameEngine {
                 if (this.shutdown) {
                     document.removeEventListener(inputEventName,newEventListener)
                 }
-                this.inputEvent.bind(this)(event,inputEventName)
+                this._inputEvent.bind(this)(event,inputEventName)
             }
             document.addEventListener(inputEventName,newEventListener.bind(this))
         }
