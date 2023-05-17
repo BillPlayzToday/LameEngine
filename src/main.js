@@ -30,7 +30,7 @@ export class LameEngine {
         this._shutdown = false
         this._inputEvent = function(event,eventName) {
             for (let onInput of this._inputCatchers) {
-                onInput.bind(this,event,eventName)
+                onInput.bind(this)(event,eventName)
             }
             if (eventName == "mousedown" || eventName == "mouseup" || eventName == "click") {
                 for (let object of (this.get_objectsAt(this.mousePosition))) {
