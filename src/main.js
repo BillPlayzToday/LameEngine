@@ -486,7 +486,7 @@ export class TextLabel extends VisualObject {
     set_font(fontString,subtypeString) {
         let currentHeadInnerHtml = document.head.innerHTML
         let fontStringURL = fontString.replace(" ","+")
-        let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=' + fontStringURL + '&display=swap" rel="stylesheet"> '
+        let preparedLink = '<link href="https://fonts.googleapis.com/css2?family=' + fontStringURL + '&display=swap" rel="stylesheet">'
         if (!currentHeadInnerHtml.includes(preparedLink)) {
             document.head.innerHTML = document.head.innerHTML + "\n" + preparedLink
         }
