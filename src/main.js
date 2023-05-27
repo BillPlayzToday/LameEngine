@@ -190,11 +190,7 @@ export class LameEngine {
             if (!objects.includes(value[0])) {
                 return true
             }
-            console.log(value)
-            console.log(value[1] == true)
             if (value[1] != null) {
-                console.log("removing")
-                console.warn(value[1])
                 value[1].remove()
             }
             return false
@@ -221,8 +217,13 @@ export class LameEngine {
     }
 
     destroy() {
+        let removeObjectsPacket = []
+        for (let object of this._objects) {
+            removeObjectsPacket.push(object[0])
+        }
+
         this._shutdown = true
-        this.remove_objects(this._objects)
+        this.remove_objects(removeObjectsPacket)
         this._background.remove()
         this.viewport.removeAttribute("style")
         delete this
