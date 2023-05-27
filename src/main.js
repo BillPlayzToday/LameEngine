@@ -76,10 +76,11 @@ export class LameEngine {
             let newEventListener = function(event) {
                 if (this._shutdown) {
                     document.removeEventListener(inputEventName,newEventListener)
+                    return
                 }
                 this._inputEvent.bind(this)(event,inputEventName)
-            }
-            document.addEventListener(inputEventName,newEventListener.bind(this))
+            }.bind(this)
+            document.addEventListener(inputEventName,newEventListener)
         }
 
         this.viewport.setAttribute("style",this.toStyleCSS(this.config.defaultViewportStyle))
