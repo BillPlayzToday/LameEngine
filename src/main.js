@@ -191,6 +191,8 @@ export class LameEngine {
                 return true
             }
             if (value[1]) {
+                console.log("removing")
+                console.warn(value[1])
                 value[1].remove()
             }
             return false
@@ -219,6 +221,7 @@ export class LameEngine {
     destroy() {
         this._shutdown = true
         this.remove_objects(this._objects)
+        this._background.remove()
         this.viewport.removeAttribute("style")
         delete this
     }
