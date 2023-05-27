@@ -172,7 +172,7 @@ export class LameEngine {
             return
         }
         this.render()
-        setTimeout(this.break_loop.bind(this,breakTime),breakTime)
+        window.requestAnimationFrame(setTimeout.bind(undefined,this.break_loop.bind(this,breakTime),breakTime))
     }
 
     add_object(object,onCompiled) {
@@ -219,9 +219,6 @@ export class LameEngine {
     destroy() {
         this._shutdown = true
         this.remove_objects(this._objects)
-        for (let child of this.viewport.children) {
-            child.remove()
-        }
         this.viewport.removeAttribute("style")
         delete this
     }
