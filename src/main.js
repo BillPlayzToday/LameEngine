@@ -74,7 +74,7 @@ export class LameEngine {
 
         for (let inputEventName of this.config["inputEvents"]) {
             let newEventListener = function(event) {
-                if (this.shutdown) {
+                if (this._shutdown) {
                     document.removeEventListener(inputEventName,newEventListener)
                 }
                 this._inputEvent.bind(this)(event,inputEventName)
