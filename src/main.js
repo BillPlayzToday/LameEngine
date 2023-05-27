@@ -190,7 +190,9 @@ export class LameEngine {
             if (!objects.includes(value[0])) {
                 return true
             }
-            if (value[1]) {
+            console.log(value)
+            console.log(value[1] == true)
+            if (value[1] != null) {
                 console.log("removing")
                 console.warn(value[1])
                 value[1].remove()
