@@ -2,7 +2,7 @@
 ## What's this?
 A low/mid-performing 2D engine using plain javascript.
 ## Hosted Example
-A live-hosted example can be found [on my website right here](https://billplayz.de/page/lame-engine).
+A live-hosted example can be found [on my website right here](https://billplayz.de/lame_engine).
 ## How to install
 `import` the following url into your `type="module"` loaded script:
 
