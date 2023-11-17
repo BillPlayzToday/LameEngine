@@ -1,4 +1,6 @@
-# Lame Engine
+# Lame Engine (not maintained)
+## Disclaimer
+This repo has not been maintained for a long time. I might revive this project in the future.
 ## What's this?
 A low/mid-performing 2D engine using plain javascript.
 ## Hosted Example
